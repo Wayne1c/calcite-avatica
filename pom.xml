@@ -101,7 +101,7 @@ limitations under the License.
     <connection>scm:git:https://git-wip-us.apache.org/repos/asf/calcite-avatica.git</connection>
     <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/calcite-avatica.git</developerConnection>
     <url>https://github.com/apache/calcite-avatica</url>
-    <tag>avatica-kycalcite-avatica-1.11.0.x-3.x-rc0</tag>
+    <tag>1.11.0-rc0</tag>
   </scm>
   <modules>
     <module>core</module>
