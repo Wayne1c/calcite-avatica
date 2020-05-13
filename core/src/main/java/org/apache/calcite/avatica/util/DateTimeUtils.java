@@ -95,6 +95,8 @@ public class DateTimeUtils {
 
   private static final OffsetDateTimeHandler OFFSET_DATE_TIME_HANDLER;
 
+  private static final boolean WEEK_START_SUNDAY;
+
   static {
     ZERO_CALENDAR = Calendar.getInstance(DateTimeUtils.UTC_ZONE, Locale.ROOT);
     ZERO_CALENDAR.setTimeInMillis(0);
@@ -105,6 +107,7 @@ public class DateTimeUtils {
       h = new NoopOffsetDateTimeHandler();
     }
     OFFSET_DATE_TIME_HANDLER = h;
+    WEEK_START_SUNDAY = isWeekStartSunday();
   }
 
   //~ Methods ----------------------------------------------------------------
@@ -904,7 +907,11 @@ public class DateTimeUtils {
       }
       return ymdToUnixDate(year, month, 1);
     case WEEK:
-      final int dow = (int) floorMod(julian + 1, 7); // sun=0, sat=6
+      if (WEEK_START_SUNDAY) {
+        julian = julian + 1;
+      }
+
+      final int dow = (int) floorMod(julian, 7); // sun=0, sat=6
       int offset = dow;
       if (!floor && offset > 0) {
         offset -= 7;
@@ -914,6 +921,18 @@ public class DateTimeUtils {
       return ymdToUnixDate(year, month, day);
     default:
       throw new AssertionError(range);
+    }
+  }
+
+  private static boolean isWeekStartSunday() {
+    if (System.getProperty("kylin.week.start.sunday") == null) {
+      return false;
+    }
+
+    try {
+      return Boolean.parseBoolean(System.getProperty("kylin.week.start.sunday"));
+    } catch (Exception e) {
+      return false;
     }
   }
 
