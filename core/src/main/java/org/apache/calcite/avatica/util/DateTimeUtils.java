@@ -925,12 +925,12 @@ public class DateTimeUtils {
   }
 
   private static boolean isWeekStartSunday() {
-    if (System.getProperty("kylin.week.start.sunday") == null) {
+    if (System.getProperty("kylin.query.week.start.sunday") == null) {
       return false;
     }
 
     try {
-      return Boolean.parseBoolean(System.getProperty("kylin.week.start.sunday"));
+      return Boolean.parseBoolean(System.getProperty("kylin.query.week.start.sunday"));
     } catch (Exception e) {
       return false;
     }
